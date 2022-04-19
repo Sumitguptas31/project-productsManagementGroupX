@@ -1,24 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require("../Controllers/UserController")
-const BookController= require("../Controllers/BookController")
-const reviewcontroller= require("../Controllers/ReviewController")
-const Middleware= require("../Middlewares/Auth")
+const ProductController = require("../Controllers/productController")
+const CartController= require("../Controllers/CartController")
+const orderController= require("../Controllers/orderController")
+const Middleware=require("../Middlewares/Auth");
 
 
 
-router.post("/register",UserController.CreateUser)
-router.post("/login",UserController.loginUser)
-router.post('/books',BookController.createBook)
-router.get('/books',Middleware.authentication,Middleware.authorisation,BookController. getBooksQuery )
-router.get('/books/:bookId',Middleware.authentication,Middleware.authorisation,BookController. getBookById)
-router.put('/books/:bookId',Middleware.authentication,Middleware.authorisation,BookController.updatebook)
-router.delete('/books/:bookId',Middleware.authentication,Middleware.authorisation,BookController.deletebook)
-router.post("/books/:bookId/review",reviewcontroller.createReview)
-router.put('/books/:bookId/review/:reviewId',reviewcontroller.updateReview)
-router.delete("/books/:bookId/review/:reviewId",reviewcontroller.deleteRevByPath)
-
-
-
+router.post("/createUser",UserController.CreateUser)
+router.post('/login',UserController.loginUser)
+router.get('/user/:userId/profile',Middleware.authentication,UserController.getUser)
+router.put('/user/:userId/profile',Middleware.authentication,UserController.updateUser)
+router.post('/products',ProductController.createProduct)
+router.get('/products',ProductController.getProduct)
+router.get('/products/:productId',ProductController.getProductByid)
+router.put('/products/:productId',ProductController.updateProduct)
+router.delete('/products/:productId',ProductController.deleteProduct)
+router.post('/users/:userId/cart',Middleware.authentication,CartController.cartCreate)
+router.put('/users/:userId/cart',Middleware.authentication,CartController.updateCart)
+router.get("/users/:userId/cart",Middleware.authentication,CartController.getCart)
+router.delete("/users/:userId/cart",Middleware.authentication,CartController.deleteCart)
+ router.post("/users/:userId/orders",Middleware.authentication,orderController.createOrder)
+ router.put("/users/:userId/orders",Middleware.authentication,orderController.updateOrder)
 
 module.exports=router;
